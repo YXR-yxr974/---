@@ -1,0 +1,39 @@
+name: 发布作品集网站
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 读取网站文件
+        uses: actions/checkout@v6
+      - name: 配置 GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: 整理发布文件
+        run: |
+          mkdir -p _site
+          cp index.html project.html style.css refined.css main.js videos.js projects.js interactions.js .nojekyll _site/
+          cp -R assets _site/assets
+      - name: 上传网站
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: 发布网站
+        id: deployment
+        uses: actions/deploy-pages@v4

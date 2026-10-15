@@ -1,0 +1,1 @@
+window.PORTFOLIO_COVER_SIZES = {"film-01": [900, 1600], "film-02": [1600, 900], "film-03": [902, 1600], "film-04": [768, 1378], "lacquer": [720, 1024], "pottery": [720, 1018], "silver": [720, 1010]};
